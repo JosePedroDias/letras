@@ -6,9 +6,10 @@ testing [love2d](https://love2d.org/) and [lua](http://www.lua.org/) for the sim
 ## How
 
 
-### bundling
+### getting the game
 
-run `make dist` on mac/linux
+the latest release of letras can be found here:  
+<http://josepedrodias.com/games/letras/letras.love>
 
 
 ### running
