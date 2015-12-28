@@ -3,7 +3,7 @@
 ## Love2D
 * [getting started](https://love2d.org/wiki/Getting_Started)
 * [cb funcs](https://love2d.org/wiki/Tutorial:Callback_Functions)
-* [API](<https://love2d.org/wiki/love)
+* [API](https://love2d.org/wiki/love)
 
 ## Lua
 

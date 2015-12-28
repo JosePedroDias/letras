@@ -5,12 +5,16 @@
 require 'love'
 require 'love.graphics'
 
+local lettersImg
+
 local f = 1
 local nPos = 0
 local positions = {}
 
 function love.load()
-    love.window.setTitle('hello')
+    love.window.setTitle('letras')
+
+    lettersImg = love.graphics.newImage('images/letters.jpg')
 
     --modes = love.window.getFullscreenModes()
     --for k, v in pairs(modes) do
@@ -39,6 +43,8 @@ end
 --end
 
 function love.draw()
+    love.graphics.draw(lettersImg, 0, 0)
+
     love.graphics.setColor(255, 255, 255)
     love.graphics.print("Hello World " .. tostring(f), 10, 10)
     f = f + 1
