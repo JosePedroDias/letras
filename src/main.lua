@@ -4,8 +4,10 @@
 
 require 'love'
 require 'love.graphics'
+require 'love.audio'
 
 local lettersImg
+local correctSnd
 
 local f = 1
 local nPos = 0
@@ -15,6 +17,7 @@ function love.load()
     love.window.setTitle('letras')
 
     lettersImg = love.graphics.newImage('images/letters.jpg')
+    correctSnd = love.audio.newSource('sounds/correct.ogg', 'static')
 
     --modes = love.window.getFullscreenModes()
     --for k, v in pairs(modes) do
@@ -36,6 +39,8 @@ end
 function love.keypressed(key)
     if key == 'escape' then
         love.event.quit()
+    elseif key == 'space' then
+        correctSnd:play()
     end
 end
 

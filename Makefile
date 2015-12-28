@@ -5,9 +5,10 @@ run-src:
 
 symbolics:
 	@cd src && ln -s ../assets/images images && cd ..
+	@cd src && ln -s ../assets/sounds sounds && cd ..
 
 clean:
-	@rm -rf dist src/images
+	@rm -rf dist src/images src/sounds
   
 dist:
 	@mkdir -p dist

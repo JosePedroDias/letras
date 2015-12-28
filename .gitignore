@@ -1,3 +1,5 @@
 .idea
 *.iml
 dist
+src/images
+src/sounds
