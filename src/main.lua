@@ -4,26 +4,25 @@ require 'love.audio'
 
 local screen = require 'screen'
 
---local u = require 'utils'
+local U = require 'utils'
 
 --local lettersImg
 
 local correctSnd
 local f = 1
-local nPos = 0
 local positions = {}
 
 local G = love.graphics
 local W, H = screen.getHighestResolution()
-local w, h = 256, 256
+local w, h = 400, 400
 
 function love.load()
     love.window.setTitle('letras')
 
     --lettersImg = love.graphics.newImage('images/letters.jpg')
     --correctSnd = love.audio.newSource('sounds/correct.ogg', 'static')
-
     --image = love.graphics.newImage("cake.jpg")
+
     G.setNewFont(12)
     G.setBackgroundColor(0, 0, 0)
 
@@ -38,7 +37,7 @@ function love.keypressed(key)
     end
 end
 
-function love.update(dt)
+function love.update(_) -- dt
     f = f + 1
 end
 
@@ -60,9 +59,17 @@ function love.draw()
     screen.startDraw()
         G.clear(0, 0, 0, 0)
         G.setColor(64, 64, 64, 255)
-        G.circle('fill', 128, 128, 128, 24)
+        G.circle('fill', w/2, h/2, w/2, 24)
 
         drawExtremes(0, 0, w, h, 255, 255, 0)
+
+        U.foreachi(
+            function(pos, i)
+                G.setColor(255, 0, 0, i * 25.5)
+                G.circle('fill', pos[1], pos[2], 3, 12)
+            end,
+            positions
+        )
 
         G.setColor(255, 255, 255)
         G.print(screen.stats(), 0, 0)
@@ -73,12 +80,11 @@ end
 
 function queueUpTo10(x, y)
     x, y = screen.coords(x, y)
-    if nPos == 10 then
+    if #positions == 10 then
         table.remove(positions, 1)
         positions[10] = {x, y}
     else
-        nPos = nPos + 1
-        positions[nPos] = {x, y}
+        positions[#positions + 1] = {x, y}
     end
 end
 

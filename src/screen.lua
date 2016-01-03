@@ -1,11 +1,8 @@
 require 'love'
 require 'love.graphics'
 
-local screen = {}
-
-local w, h, ar
-local W, H, AR = 10000, 10000, 1
-local scale, x, y = 1, 0, 0
+local w, h, W, H
+local scale, x, y
 local canvas
 
 function getHighestResolution()
@@ -23,10 +20,11 @@ function getHighestResolution()
 end
 
 function setSize(_W, _H, _w, _h)
-    w, h, ar = _w, _h, _w / _h
+    w, h = _w, _h
+    local ar = _w / _h
 
     W, H = _W, _H
-    AR = W / H
+    local AR = W / H
     if AR > ar then
         scale = H / h
         y = 0
