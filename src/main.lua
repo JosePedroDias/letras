@@ -2,16 +2,20 @@ require 'love'
 require 'love.graphics'
 require 'love.audio'
 
-local u = require 'utils'
+local screen = require 'screen'
+
+--local u = require 'utils'
 
 --local lettersImg
-local correctSnd
 
+local correctSnd
 local f = 1
 local nPos = 0
 local positions = {}
-local screen = require 'screen'
-local canvas
+
+local G = love.graphics
+local W, H = screen.getHighestResolution()
+local w, h = 256, 256
 
 function love.load()
     love.window.setTitle('letras')
@@ -20,12 +24,10 @@ function love.load()
     --correctSnd = love.audio.newSource('sounds/correct.ogg', 'static')
 
     --image = love.graphics.newImage("cake.jpg")
-    love.graphics.setNewFont(12)
-    love.graphics.setBackgroundColor(64, 0, 64)
+    G.setNewFont(12)
+    G.setBackgroundColor(0, 0, 0)
 
-    print('screen', screen)
-    --u.dir(screen)
-    canvas = screen.setSize(256, 256)
+    screen.setSize(W, H, w, h)
 end
 
 function love.keypressed(key)
@@ -36,21 +38,36 @@ function love.keypressed(key)
     end
 end
 
---function love.update(dt)
---end
+function love.update(dt)
+    f = f + 1
+end
+
+function drawExtremes(x0, y0, x1, y1, r, g, b)
+    G.setColor(r, g, b, 255)
+    G.circle('fill', x0, y0, 8, 8)
+    G.circle('fill', x1, y0, 8, 8)
+    G.circle('fill', x0, y1, 8, 8)
+    G.circle('fill', x1, y1, 8, 8)
+end
 
 function love.draw()
-    --love.graphics.draw(lettersImg, 0, 0)
+    G.clear(0, 0, 0, 0)
 
-    love.graphics.setCanvas(canvas)
-        love.graphics.setColor(64, 64, 64, 255)
-        love.graphics.circle('fill', 128, 128, 128, 24)
+    --G.draw(lettersImg, 0, 0)
 
-        love.graphics.setColor(255, 255, 255)
-        love.graphics.print(screen.stats(), 0, 0)
-    love.graphics.setCanvas()
+    drawExtremes(0, 0, W, H, 255, 0, 255)
 
-    screen.draw()
+    screen.startDraw()
+        G.clear(0, 0, 0, 0)
+        G.setColor(64, 64, 64, 255)
+        G.circle('fill', 128, 128, 128, 24)
+
+        drawExtremes(0, 0, w, h, 255, 255, 0)
+
+        G.setColor(255, 255, 255)
+        G.print(screen.stats(), 0, 0)
+        G.print('F:' .. f, 0, 20)
+    screen.endDraw()
 end
 
 

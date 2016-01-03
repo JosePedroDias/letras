@@ -8,15 +8,24 @@ local W, H, AR = 10000, 10000, 1
 local scale, x, y = 1, 0, 0
 local canvas
 
-function setSize(_w, _h)
-    w, h, ar = _w, _h, _w / _h
-
+function getHighestResolution()
+    local wi, hi, area = 640, 480, 0
     local modes = love.window.getFullscreenModes()
     for _, m in ipairs(modes) do
-        --local ar = m.width / m.height
-        print(m.width .. ' x ' .. m.height)
+        local areaT = m.width * m.height
+        if areaT > area then
+            wi = m.width
+            hi = m.height
+            area = areaT
+        end
     end
-    W, H = 800, 600 -- TODO
+    return wi, hi
+end
+
+function setSize(_W, _H, _w, _h)
+    w, h, ar = _w, _h, _w / _h
+
+    W, H = _W, _H
     AR = W / H
     if AR > ar then
         scale = H / h
@@ -27,16 +36,19 @@ function setSize(_w, _h)
         x = 0
         y = (H - h * scale) / 2
     end
+
     love.window.setMode(W, H, {fullscreen=true})
 
     canvas = love.graphics.newCanvas(w, h)
-    --canvas:setFilter('nearest')
-
-    return canvas
+    canvas:setFilter('nearest')
 end
 
-function draw()
-    --https://love2d.org/wiki/love.graphics.draw
+function startDraw()
+    love.graphics.setCanvas(canvas)
+end
+
+function endDraw()
+    love.graphics.setCanvas()
     love.graphics.draw(canvas, x, y, 0, scale, scale)
 end
 
@@ -51,8 +63,10 @@ function stats()
 end
 
 return {
+    getHighestResolution = getHighestResolution,
     setSize = setSize,
-    draw = draw,
+    startDraw = startDraw,
+    endDraw = endDraw,
     coords = coords,
     stats = stats
 }
